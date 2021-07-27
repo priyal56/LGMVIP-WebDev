@@ -1,0 +1,129 @@
+<DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>LGMVIP-WebDev-Task2</title>
+      <style>
+        .user{
+          background-color: #b2bec3;
+          padding: 1rem;
+          margin: 2rem 10vh;
+        }
+        .btn{
+           margin-top: 20vh;
+           margin-left: 10vh;
+           padding: 10px 20px;
+           font-weight: 700;
+           letter-spacing: .3px;
+           font-size: 17px;
+           border: 1px solid black;
+           text-transform: uppercase;
+          }
+          .btn:hover{
+          background-color: #0984e3;
+          cursor: pointer;
+          color: white;
+          }
+          .col2{
+            display: inline-block;
+            
+          }
+nav{
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100px;
+padding: 10px 90px;
+box-sizing: border-box;
+background-color: rgba(20, 20, 20, 0.7);
+border-bottom: 1px solid rgb(0, 0, 0);
+border-bottom: solid white;
+}
+nav .logo{
+padding: 22px 20px;
+height: 80px;
+float: left;
+font-size: 24px;
+font-weight: bold;
+text-transform: uppercase;
+color: rgb(0, 0, 0);
+cursor: pointer;
+}
+      </style>
+
+  </head>
+
+
+
+<body>
+      <!--Header start-->
+      <section id="header">
+        <nav>
+            <div class="logo">zipphy</div>
+        </nav>
+    </section>
+
+    <!--Header ends-->
+  <button id="getData" class="btn blue">Get User</button>
+  <div id="app"></div>
+
+  <script src="jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function(){
+            $("#getData").on("click",function(){
+          function fetchData(){
+            fetch("https://reqres.in/api/users")
+            .then(response => {
+              console.log(response);
+              if (!response.ok) {
+                throw Error("ERROR");
+              }
+             
+              return response.json();
+            })
+            .then(data => {
+              console.log(data.data);
+              const html = data.data
+              .map(user => {
+                return `
+                <div class="user">
+                  <p> <img src="${user.avatar}" alt="" />
+                    <div class="col2">
+                  <p>Id: ${user.id}</p>
+                  <p>Email: ${user.email}</p>
+                  <p>Name: ${user.first_name}
+                  ${user.last_name}</p>
+                  </div>
+                  
+                  
+                </p>
+                </div>
+                  
+                  `
+                          
+              }).join("");
+              console.log(html);
+              document
+              .querySelector("#app")
+              .insertAdjacentHTML ("afterbegin", html);
+              
+            }).catch(error => {
+              console.log(error);
+
+            });
+            }
+
+            fetchData();
+          });
+        });
+
+
+
+  </script>
+
+</body>
+</html>
+    
